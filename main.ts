@@ -3,16 +3,17 @@ import { validarUbicacion, haversine } from "./utils.ts";
 import { Nino, Ubicacion } from "./types.ts";
 
 const MONGO_URL = Deno.env.get("MONGO_URL");
+
 if (!MONGO_URL) {
   console.error("MONGO_URL no está configurada");
   Deno.exit(1);
 }
 
-const client = new MongoClient();
-await client.connect(MONGO_URL);
+const client = new MongoClient(MONGO_URL);
+await client.connect();
 console.info("Conectado a MongoDB");
 
-const db = client.database("navidad");
+const db = client.db("navidad");
 const ninosCollection = db.collection<Nino>("ninos");
 const ubicacionesCollection = db.collection<Ubicacion>("ubicaciones");
 
