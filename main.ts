@@ -2,6 +2,7 @@ import { MongoClient, ObjectId } from "mongodb";
 import { validarUbicacion, haversine } from "./utils.ts";
 import { Nino, Ubicacion } from "./types.ts";
 
+const MONGO_URL = "MONGO_URL =mongodb+srv://otheruser:123456aaabbbb@cluster0.loyvx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 /*const MONGO_URL = Deno.env.get("MONGO_URL");
 
 if (!MONGO_URL) {
