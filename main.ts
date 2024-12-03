@@ -1,22 +1,24 @@
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient } from 'mongodb'
 import { validarUbicacion, haversine } from "./utils.ts";
 import { Nino, Ubicacion } from "./types.ts";
 
-const MONGO_URL = "MONGO_URL =mongodb+srv://otheruser:123456aaabbbb@cluster0.loyvx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-/*const MONGO_URL = Deno.env.get("MONGO_URL");
+const url = 'mongodb+srv://otheruser:123456aaabbbb@cluster0.loyvx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const client = new MongoClient(url);
+//hola
+const dbName = 'BDP3';
 
-if (!MONGO_URL) {
-  console.error("MONGO_URL no está configurada");
-  Deno.exit(1);
-}
-*/
-const client = new MongoClient(MONGO_URL);
 await client.connect();
-console.info("Conectado a MongoDB");
+console.log('Connected successfully to server');
+const db = client.db(dbName);
 
-const db = client.db("navidad");
-const ninosCollection = db.collection<Nino>("ninos");
-const ubicacionesCollection = db.collection<Ubicacion>("ubicaciones");
+const ninosCollection = db.collection('niños');
+const ubicacionesCollection = db.collection('lugares');
+
+
+export type Comportamiento = 'bueno' | 'malo';
+
+
+
 
 const handler = async (req: Request): Promise<Response> => {
   const url = new URL(req.url);
@@ -27,7 +29,7 @@ const handler = async (req: Request): Promise<Response> => {
     const data = await req.json();
     const { nombre, coordenadas } = data;
 
-    if (!nombre || !coordenadas || coordenadas.length !== 2) {
+    if (!nombre || !coordenadas ) {
       return new Response(JSON.stringify({ error: "Datos inválidos" }), { status: 400 });
     }
 
@@ -105,4 +107,4 @@ const handler = async (req: Request): Promise<Response> => {
   return new Response("Not found", { status: 404 });
 };
 
-Deno.serve({ port: 6768 }, handler);
+Deno.serve({ port: 3000 }, handler);
