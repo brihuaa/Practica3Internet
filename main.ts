@@ -64,7 +64,7 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
-    const ubicacionValida = await validarUbicacion(ubicacionId, ubicacionesCollection);
+    const ubicacionValida = await validarUbicacion(ubicacionId,  ubicacionesCollection);
     if (!ubicacionValida) {
       return new Response(
         JSON.stringify({ error: "La ubicación especificada no existe" }),
